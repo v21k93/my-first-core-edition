@@ -11,6 +11,7 @@
 set(scripts_STAT_SRCS
   ${scripts_STAT_SRCS}
   Custom/custom_vip_commandscript.cpp
+  Custom/custom_duel_commandscript.cpp
 )
 
 message("  -> Prepared: Custom")
