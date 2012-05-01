@@ -24,25 +24,25 @@ class custom_duel_commandscript : public CommandScript
 			Player* target;
 			uint64 target_guid;
 			std::string target_name;
-			if (!extractPlayerTarget((char*)args, &target, &target_guid, &target_name))
+			if (!handler->extractPlayerTarget((char*)args, &target, &target_guid, &target_name))
 				return false;
 				
-			Player* _player = handler->GetPlayer();
+			Player* _player = handler->GetSession()->GetPlayer();
 			
 			if (target == _player || target_guid == _player->GetGUID())
 			{
-				SendSysMessage(LANG_CANT_TELEPORT_SELF);
-				SetSentErrorMessage(true);
+				handler->PSendSysMessage(LANG_CANT_TELEPORT_SELF);
+				handler->SetSentErrorMessage(true);
 				return false;
 			}
 			
 			if (target)
 			{
 				// check online security
-				if (HasLowerSecurity(target, 0))
+				if (handler->HasLowerSecurity(target, 0))
 					return false;
 
-				std::string chrNameLink = playerLink(target_name);
+				std::string chrNameLink = handler->playerLink(target_name);
 				
 				if (target->GetSocial()->HasIgnore(_player->GetGUIDLow()))
 				{
@@ -60,24 +60,24 @@ class custom_duel_commandscript : public CommandScript
 				
 				if (target->GetPhaseMask() == _player->GetPhaseMask())
 				{
-					SendSysMessage("You are in the same phase.");
-					SetSentErrorMessage(true);
+					handler->PSendSysMessage("You are in the same phase.");
+					handler->SetSentErrorMessage(true);
 					return false;
 				}
 				
 				Map* cMap_target = target->GetMap();
 				
-				if(cMap_target != player->GetMap())
+				if(cMap_target != _player->GetMap())
 				{
-					SendSysMessage("Must be in the same map.");
-					SetSentErrorMessage(true);
+					handler->PSendSysMessage("Must be in the same map.");
+					handler->SetSentErrorMessage(true);
 					return false;
 				}
 				
 				if (cMap_target->IsBattlegroundOrArena() || cMap_target->IsDungeon() || cMap_target->IsRaid())
 				{
-					PSendSysMessage(LANG_CANNOT_GO_TO_INST_PARTY, chrNameLink.c_str());
-					SetSentErrorMessage(true);
+					handler->PSendSysMessage(LANG_CANNOT_GO_TO_INST_PARTY, chrNameLink.c_str());
+					handler->SetSentErrorMessage(true);
 					return false;
 				}
 				
@@ -123,11 +123,13 @@ class custom_duel_commandscript : public CommandScript
 				
 				_player->SaveToDB();
 			}
+			
+			return true;
 		}
 		
 		static bool HandleDuelLeaveCommand(ChatHandler* handler, char const* /*args*/)
 		{
-			Player* _player = handler->GetPlayer();
+			Player* _player = handler->GetSession()->GetPlayer();
 
 			_player->setFactionForRace(_player->getRace());
 			_player->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -137,6 +139,8 @@ class custom_duel_commandscript : public CommandScript
 			_player->SetPhaseMask(1, true);
 				
 			_player->SaveToDB();
+			
+			return true;
 		}
 		
         ChatCommand* GetCommands() const
@@ -153,7 +157,7 @@ class custom_duel_commandscript : public CommandScript
 				{	"duel",	SEC_PLAYER,      false,	NULL,	"", DuelSubCommandsTable },
                 {	NULL,	0,           	 false,	NULL,   "", NULL }
             };
-            return BuffCommandTable;
+            return DuelCommandTable;
         }
 };
 
