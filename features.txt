@@ -4,3 +4,4 @@ Features
 	- Players now revive at 100% stats (not 50% as usual)
 	- Added VIP rank and VIP Commands
 	- Added Duel Phase System
+	- Test
