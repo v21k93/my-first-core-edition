@@ -13296,6 +13296,11 @@ void Unit::ModSpellCastTime(SpellInfo const* spellProto, int32 & castTime, Spell
 {
     if (!spellProto || castTime < 0)
         return;
+		
+	// Instant glyphs & enchants
+	if (spellProto->Effects[0].Effect == SPELL_EFFECT_ENCHANT_ITEM || spellProto->Effects[0].Effect == SPELL_EFFECT_APPLY_GLYPH || spellProto->Effects[0].Effect == SPELL_EFFECT_ENCHANT_ITEM_PRISMATIC || spellProto->Effects[0].Effect == SPELL_EFFECT_ENCHANT_HELD_ITEM || spellProto->Effects[0].Effect == SPELL_EFFECT_ENCHANT_ITEM_TEMPORARY)
+		castTime = 0;
+		
     // called from caster
     if (Player* modOwner = GetSpellModOwner())
         modOwner->ApplySpellMod(spellProto->Id, SPELLMOD_CASTING_TIME, castTime, spell);
