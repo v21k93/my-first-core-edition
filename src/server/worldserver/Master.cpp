@@ -135,7 +135,10 @@ int Master::Run()
     sLog->outString("     \\ \\_\\ \\_\\  \\ \\_\\ \\_\\ \\_\\ \\_\\ \\__\\\\/`____ \\");
     sLog->outString("      \\/_/\\/_/   \\/_/\\/_/\\/_/\\/_/\\/__/ `/___/> \\");
     sLog->outString("                                 C O R E  /\\___/");
-    sLog->outString("http://TrinityCore.org                    \\/__/\n");
+    sLog->outString("http://Cheer-world.info                   \\/__/\n");
+	
+	sLog->outString("<<-- Cheer Core -->>");
+	sLog->outString("<<-- By Ac0 & Fake -->>");
 
     /// worldserver PID file creation
     std::string pidfile = ConfigMgr::GetStringDefault("PidFile", "");
@@ -230,6 +233,8 @@ int Master::Run()
         {
             if (SetPriorityClass(hProcess, HIGH_PRIORITY_CLASS))
                 sLog->outString("worldserver process priority class set to HIGH");
+				sLog->outString("<<-- Cheer Core -->>");
+				sLog->outString("<<-- By Ac0 & Fake -->>");
             else
                 sLog->outError("Can't set worldserver process priority class.");
             sLog->outString("");

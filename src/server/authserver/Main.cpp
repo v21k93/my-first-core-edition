@@ -197,6 +197,8 @@ extern int main(int argc, char **argv)
         {
             if (SetPriorityClass(hProcess, HIGH_PRIORITY_CLASS))
                 sLog->outString("The auth server process priority class has been set to HIGH");
+                sLog->outString("<<-- Cheer Core -->>");
+				sLog->outString("<<-- By Ac0 & Fake -->>");
             else
                 sLog->outError("Can't set auth server process priority class.");
             sLog->outString();
