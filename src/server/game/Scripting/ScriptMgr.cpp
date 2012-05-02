@@ -1224,7 +1224,19 @@ void ScriptMgr::OnPlayerReputationChange(Player* player, uint32 factionID, int32
 }
 
 void ScriptMgr::OnPlayerDuelRequest(Player* target, Player* challenger)
-{
+{   
+	uint32 zone5 = ConfigMgr::GetIntDefault("Duel.Forbiden.Zone5", NULL);
+	uint32 zone6 = ConfigMgr::GetIntDefault("Duel.Forbiden.Zone6", NULL);
+	uint32 zone7 = ConfigMgr::GetIntDefault("Duel.Forbiden.Zone7", NULL);
+	uint32 zone8 = ConfigMgr::GetIntDefault("Duel.Forbiden.Zone8", NULL);
+	if (target->GetZoneId() == zone5 || target->GetZoneId() == zone6 || target->GetZoneId() == zone7 || target->GetZoneId() == zone8)
+    {
+		target->MonsterWhisper("Duels are not allowed here..! Please go to the Duel zone by the teleporter.",target->GetGUID(),true);
+		challenger->MonsterWhisper("Duels are not allowed here..! Please go to the Duel zone by the teleporter.",challenger->GetGUID(),true);
+		target->DuelComplete(DUEL_INTERRUPTED); 
+		challenger->DuelComplete(DUEL_INTERRUPTED);	
+		return;
+	}
     FOREACH_SCRIPT(PlayerScript)->OnDuelRequest(target, challenger);
 }
 

@@ -2898,6 +2898,19 @@ Duel.Zone3 =
 Duel.Zone4 =
 
 
+#
+#	Duel.Forbiden.Zone
+#		Description: Make a zone forbiden for duels
+#              	Default:	NULL 	- (Disabled)
+#                          	ZoneID 	- (Enabled for ZoneID)
+#
+#
+
+Duel.Forbiden.Zone5 = 
+Duel.Forbiden.Zone6 =
+Duel.Forbiden.Zone7 =
+Duel.Forbiden.Zone8 =
+
 
 
 

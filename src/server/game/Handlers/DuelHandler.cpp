@@ -57,7 +57,9 @@ void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
     plTarget->duel->startTimer = now;
 
     player->SendDuelCountdown(3000);
-    plTarget->SendDuelCountdown(3000);
+    plTarget->SendDuelCountdown(3000);	
+	plTarget->MonsterWhisper("Prepare to fight...!",plTarget->GetGUID(),true);
+	player->MonsterWhisper("Prepare to fight...!",player->GetGUID(),true);
 	
 	if (player->GetZoneId() == zone1 || player->GetZoneId() == zone2 || player->GetZoneId() == zone3 || player->GetZoneId() == zone4)
     {
@@ -67,8 +69,6 @@ void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
 		player->SetPower(POWER_MANA, player->GetMaxPower(POWER_MANA));
 		plTarget->SetHealth(plTarget->GetMaxHealth());
 		plTarget->SetPower(POWER_MANA,  plTarget->GetMaxPower(POWER_MANA));
-		plTarget->MonsterWhisper("Prepare to fight...!",plTarget->GetGUID(),true);
-		player->MonsterWhisper("Prepare to fight...!",player->GetGUID(),true);
 	}
 }
 
