@@ -24,9 +24,15 @@
 #include "UpdateData.h"
 #include "Player.h"
 #include "UpdateFields.h"
+#include "config.h"
 
 void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
 {
+    uint32 zone1 = ConfigMgr::GetIntDefault("Duel.Zone1", NULL);
+	uint32 zone2 = ConfigMgr::GetIntDefault("Duel.Zone2", NULL);
+	uint32 zone3 = ConfigMgr::GetIntDefault("Duel.Zone3", NULL);
+	uint32 zone4 = ConfigMgr::GetIntDefault("Duel.Zone4", NULL);
+	
     uint64 guid;
     Player* player;
     Player* plTarget;
@@ -52,6 +58,18 @@ void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
 
     player->SendDuelCountdown(3000);
     plTarget->SendDuelCountdown(3000);
+	
+	if (player->GetZoneId() == zone1 || player->GetZoneId() == zone2 || player->GetZoneId() == zone3 || player->GetZoneId() == zone4)
+    {
+		player->RemoveAllSpellCooldown();
+		plTarget->RemoveAllSpellCooldown();
+		player->SetHealth(player->GetMaxHealth());
+		player->SetPower(POWER_MANA, player->GetMaxPower(POWER_MANA));
+		plTarget->SetHealth(plTarget->GetMaxHealth());
+		plTarget->SetPower(POWER_MANA,  plTarget->GetMaxPower(POWER_MANA));
+		plTarget->MonsterWhisper("Prepare to fight...!",plTarget->GetGUID(),true);
+		player->MonsterWhisper("Prepare to fight...!",player->GetGUID(),true);
+	}
 }
 
 void WorldSession::HandleDuelCancelledOpcode(WorldPacket& recvPacket)

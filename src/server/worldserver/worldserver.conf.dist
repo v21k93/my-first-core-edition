@@ -2880,3 +2880,27 @@ PlayerDump.DisallowOverwrite = 1
 
 #
 ###################################################################################################
+
+
+###################################################################################################
+#  Custom Scrypts by Fake.
+#		
+#	Duel.Zone
+#              	Description: Make a zone Friendly to both factions(use it like a duel zone)
+#              	Default:	NULL 	- (Disabled)
+#                        	ZoneID 	- (Enabled for ZoneID)
+#
+#
+
+Duel.Zone1 = 876
+Duel.Zone2 = 
+Duel.Zone3 = 
+Duel.Zone4 =
+
+
+
+
+
+#
+#
+###################################################################################################

@@ -74,6 +74,7 @@
 #include "InstanceScript.h"
 #include <cmath>
 #include "AccountMgr.h"
+#include "config.h"
 
 #define ZONE_UPDATE_INTERVAL (1*IN_MILLISECONDS)
 
@@ -7506,7 +7507,16 @@ void Player::UpdateArea(uint32 newArea)
     // FFA_PVP flags are area and not zone id dependent
     // so apply them accordingly
     m_areaUpdateId    = newArea;
-
+	
+	uint32 AapId;
+	AapId = GetZoneId();
+	
+	uint32 zone1 = ConfigMgr::GetIntDefault("Duel.Zone1", NULL);
+	uint32 zone2 = ConfigMgr::GetIntDefault("Duel.Zone2", NULL);
+	uint32 zone3 = ConfigMgr::GetIntDefault("Duel.Zone3", NULL);
+	uint32 zone4 = ConfigMgr::GetIntDefault("Duel.Zone4", NULL);
+	
+	
     AreaTableEntry const* area = GetAreaEntryByAreaID(newArea);
     pvpInfo.inFFAPvPArea = area && (area->flags & AREA_FLAG_ARENA);
     UpdatePvPState(true);
@@ -7521,7 +7531,20 @@ void Player::UpdateArea(uint32 newArea)
         pvpInfo.inNoPvPArea = true;
         CombatStopWithPets();
     }
+	
+	else if(AapId == zone1 || AapId == zone2 || AapId == zone3 || AapId == zone4) // Duel Zone CustomScr..
+	{
+		if(!isGameMaster())
+		{
+			setFaction(35);
+			pvpInfo.inNoPvPArea = true;
+			CombatStopWithPets();
+		}
+	}
+	
     else
+		if(!isGameMaster())
+			setFactionForRace(getRace());
         RemoveByteFlag(UNIT_FIELD_BYTES_2, 1, UNIT_BYTE2_FLAG_SANCTUARY);
 }
 
@@ -7689,6 +7712,11 @@ void Player::DuelComplete(DuelCompleteType type)
     if (!duel)
         return;
 		
+	uint32 zone1 = ConfigMgr::GetIntDefault("Duel.Zone1", NULL);
+	uint32 zone2 = ConfigMgr::GetIntDefault("Duel.Zone2", NULL);
+	uint32 zone3 = ConfigMgr::GetIntDefault("Duel.Zone3", NULL);
+	uint32 zone4 = ConfigMgr::GetIntDefault("Duel.Zone4", NULL);		
+		
 	duel->opponent->SetPhaseMask(1, true);
 	duel->opponent2->SetPhaseMask(1, true);
 
@@ -7731,7 +7759,16 @@ void Player::DuelComplete(DuelCompleteType type)
             }
             break;
         case DUEL_WON:
-            GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_LOSE_DUEL, 1);
+			if (duel->opponent->GetZoneId() == zone1 || duel->opponent->GetZoneId() == zone2 || duel->opponent->GetZoneId() == zone3 || duel->opponent->GetZoneId() == zone4)
+			{
+				duel->opponent->RemoveArenaSpellCooldowns();
+				duel->opponent2->RemoveArenaSpellCooldowns();
+				duel->opponent->SetHealth(duel->opponent->GetMaxHealth());
+				duel->opponent->SetPower(POWER_MANA, duel->opponent->GetMaxPower(POWER_MANA));
+				duel->opponent2->SetHealth(duel->opponent2->GetMaxHealth());
+				duel->opponent2->SetPower(POWER_MANA, duel->opponent2->GetMaxPower(POWER_MANA));
+				GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_LOSE_DUEL, 1);
+			}
             if (duel->opponent)
             {
                  duel->opponent->GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_WIN_DUEL, 1);
