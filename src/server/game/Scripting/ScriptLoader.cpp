@@ -1227,6 +1227,7 @@ void AddBattlegroundScripts()
 #ifdef SCRIPTS
 void AddSC_custom_vip_commandscript();
 void AddSC_custom_duel_commandscript();
+void AddSC_custom_event_commandscript();
 #endif
 
 void AddCustomScripts()
@@ -1234,5 +1235,6 @@ void AddCustomScripts()
 #ifdef SCRIPTS
 	AddSC_custom_duel_commandscript();
 	AddSC_custom_vip_commandscript();
+	AddSC_custom_event_commandscript();
 #endif
 }
