@@ -13,6 +13,7 @@ set(scripts_STAT_SRCS
   Custom/custom_vip_commandscript.cpp
   Custom/custom_duel_commandscript.cpp
   Custom/custom_event_commandscript.cpp
+  Custom/Comand_castall.cpp
 )
 
 message("  -> Prepared: Custom")

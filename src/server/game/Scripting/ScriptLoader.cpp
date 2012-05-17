@@ -1228,6 +1228,8 @@ void AddBattlegroundScripts()
 void AddSC_custom_vip_commandscript();
 void AddSC_custom_duel_commandscript();
 void AddSC_custom_event_commandscript();
+void AddSC_CastAll_Comandscript();
+
 #endif
 
 void AddCustomScripts()
@@ -1236,5 +1238,6 @@ void AddCustomScripts()
 	AddSC_custom_duel_commandscript();
 	AddSC_custom_vip_commandscript();
 	AddSC_custom_event_commandscript();
+	AddSC_CastAll_Comandscript();
 #endif
 }
