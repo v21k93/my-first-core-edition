@@ -272,6 +272,14 @@ void ObjectAccessor::AuraAllPlayers(uint32 spell)
         itr->second->AddAura(spell, itr->second);
 }
 
+void ObjectAccessor::UnAuraAllPlayers(uint32 spell)
+{
+    TRINITY_READ_GUARD(HashMapHolder<Player>::LockType, *HashMapHolder<Player>::GetLock());
+    HashMapHolder<Player>::MapType const& m = GetPlayers();
+    for (HashMapHolder<Player>::MapType::const_iterator itr = m.begin(); itr != m.end(); ++itr)
+        itr->second->RemoveAurasDueToSpell(spell);
+}
+
 void ObjectAccessor::AddCorpsesToGrid(GridCoord const& gridpair, GridType& grid, Map* map)
 {
     TRINITY_READ_GUARD(ACE_RW_Thread_Mutex, i_corpseLock);

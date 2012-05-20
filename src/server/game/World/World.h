@@ -52,6 +52,8 @@ enum ServerMessageType
     SERVER_MSG_RESTART_CANCELLED  = 5
 };
 
+
+
 enum ShutdownMask
 {
     SHUTDOWN_MASK_RESTART = 1,
@@ -569,6 +571,9 @@ class World
 
         /// Deny clients?
         bool IsClosed() const;
+		bool IsEventStatus();
+		
+		void Enent_reset();
 
         /// Close world
         void SetClosed(bool val);
@@ -634,7 +639,9 @@ class World
 
         void SetInitialWorldSettings();
         void LoadConfigSettings(bool reload = false);
-
+		void OnEventReq(Player* player);
+		void OnEventReqStatus(uint8 status);
+		
         void SendWorldText(int32 string_id, ...);
         void SendGlobalText(const char* text, WorldSession* self);
         void SendGMText(int32 string_id, ...);
@@ -847,6 +854,13 @@ class World
 
         void ProcessQueryCallbacks();
         ACE_Future_Set<PreparedQueryResult> m_realmCharCallbacks;
+		struct SystemInfo5
+		{
+			uint32 MemberStreak;
+			uint8 MemberCount;
+		};
+		std::map<uint32, SystemInfo5> EventMember;
+		uint8 stat;
 };
 
 extern uint32 realmID;

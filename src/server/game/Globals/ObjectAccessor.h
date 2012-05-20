@@ -225,6 +225,8 @@ class ObjectAccessor
         static void SaveAllPlayers();
 		static void CastAllPlayers(uint32 spell);
 		static void AuraAllPlayers(uint32 spell);
+		static void UnAuraAllPlayers(uint32 spell);
+		
 
         //non-static functions
         void AddUpdateObject(Object* obj)

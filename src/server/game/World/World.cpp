@@ -219,6 +219,145 @@ void World::AddSession(WorldSession* s)
     addSessQueue.add(s);
 }
 
+uint8 ht;
+uint8 at;
+void World::OnEventReq(Player* player)
+{
+
+		uint8 hm; 
+		uint8 am;
+		
+		player->AddAura(69732, player);
+		if (player->GetTeamId() == TEAM_HORDE)
+		{
+		EventMember[ht].MemberCount++;
+		switch(EventMember[ht].MemberCount)
+		{
+			case 1:
+			player->Yell("Hey all, I just 1 HH came to the event!", 1);
+			
+			break;		
+			
+			case 2:
+			player->Yell("Hey all, I just 2 HH came to the event!", 1);
+			
+			break;	
+			
+			case 3:
+			player->Yell("Hey all, I just 3 HH came to the event!", 1);
+			break;			
+			case 4:
+			
+			player->Yell("Hey all, I just 4 HH came to the event!", 1);
+			break;			
+			case 5:
+			
+			player->Yell("Hey all, I just 5 HH came to the event!", 1);
+			break;			
+			case 6:
+			
+			player->Yell("Hey all, I just 6 HH came to the event!", 1);
+			break;			
+			case 7:
+			
+			player->Yell("Hey all, I just 7 HH came to the event!", 1);
+			break;
+			case 8:
+			
+			player->Yell("Hey all, I just 8 HH came to the event!", 1);
+			break;
+			case 9:
+			
+			player->Yell("Hey all, I just 9 HH came to the event!", 1);
+			break;
+			case 10:
+				//Hord is full
+				hm = 1;
+				if(am == 1)
+					EventMember[stat].MemberStreak = 0;
+			break;
+		}
+		}
+		
+		if (player->GetTeamId() == TEAM_ALLIANCE)
+		{
+		EventMember[ht].MemberCount++;
+		switch(EventMember[at].MemberCount)
+		{
+			case 1:
+			player->Yell("Hey all, I just 1 AA came to the event!", 1);
+			
+			break;		
+			
+			case 2:
+			player->Yell("Hey all, I just 2 AA came to the event!", 1);
+			
+			break;	
+			
+			case 3:
+			player->Yell("Hey all, I just 3 AA came to the event!", 1);
+			break;			
+			case 4:
+			
+			player->Yell("Hey all, I just 4 AA came to the event!", 1);
+			break;			
+			case 5:
+			
+			player->Yell("Hey all, I just 5 AA came to the event!", 1);
+			break;			
+			case 6:
+			
+			player->Yell("Hey all, I just 6 AA came to the event!", 1);
+			break;			
+			case 7:
+			
+			player->Yell("Hey all, I just 7 AA came to the event!", 1);
+			break;
+			case 8:
+			
+			player->Yell("Hey all, I just 8 AA came to the event!", 1);
+			break;
+			case 9:
+			
+			player->Yell("Hey all, I just 9 AA came to the event!", 1);
+			break;
+			case 10:
+				//Alliance is full
+				am = 1;
+				if(hm == 1)
+					EventMember[stat].MemberStreak = 0;
+			break;
+		}
+		}
+		
+	
+}
+
+void World::Enent_reset()
+{
+	EventMember[ht].MemberCount = 0;
+	EventMember[at].MemberCount = 0;
+}
+
+void World::OnEventReqStatus(uint8 status)
+{
+	if(status == 1)
+		EventMember[stat].MemberStreak = 1;
+	
+	else if(status == 0)
+		EventMember[stat].MemberStreak = 0;
+}
+
+bool World::IsEventStatus()
+{
+	if(EventMember[stat].MemberStreak = 1)
+		return true;
+	
+	else if(EventMember[stat].MemberStreak = 0)
+		return false;
+}
+
+
 void World::AddSession_(WorldSession* s)
 {
     ASSERT (s);

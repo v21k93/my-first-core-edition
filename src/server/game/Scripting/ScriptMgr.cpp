@@ -27,13 +27,14 @@
 #include "ScriptSystem.h"
 #include "Transport.h"
 #include "Vehicle.h"
+#include "player.h"
+#include "world.h"
 
 // This is the global static registry of scripts.
 template<class TScript>
 class ScriptRegistry
 {
     public:
-
         typedef std::map<uint32, TScript*> ScriptMap;
         typedef typename ScriptMap::iterator ScriptMapIterator;
 
